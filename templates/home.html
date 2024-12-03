@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Plant System</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #e8f5e9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-image: url('https://static.vecteezy.com/system/resources/previews/041/388/535/non_2x/ai-generated-lush-greenery-of-tropical-plant-wall-photo.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            width: 100%;
+            background-color: rgba(46, 125, 50, 0.9); /* Darkened navbar background */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .logo {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navbar .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .nav-links a:hover {
+            background-color: #1b5e20;
+        }
+
+        .navbar .logout {
+            background-color: #c62828;
+            color: #fff;
+        }
+
+        .navbar .logout:hover {
+            background-color: #8e0000;
+        }
+
+        .navbar .menu-icon {
+            display: none;
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 100px 20px 20px 20px; /* Adjusted padding-top to account for fixed navbar */
+            z-index: 1; /* Make sure the content is on top of the background image */
+        }
+
+        .content h1 {
+            margin-bottom: 10px;
+            font-size: 32px;
+            color: white;
+        }
+
+        .content p {
+            margin-bottom: 30px;
+            font-size: 18px;
+            color: white;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        /* Project Description */
+        .project-description {
+            background-color: #c8e6c9;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            max-width: 700px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .project-description p {
+            font-size: 16px;
+            color: #2e7d32;
+            line-height: 1.6;
+        }
+
+        /* Control Cards */
+        .control-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .control-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .control-card h2 {
+            margin-bottom: 15px;
+            font-size: 24px;
+            color: #2e7d32;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-card button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            font-size: 16px;
+            color: #fff;
+            background-color: #43a047;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .control-card button:hover {
+            background-color: #2e7d32;
+            transform: scale(1.02);
+        }
+
+        .control-card button:active {
+            transform: scale(0.98);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .navbar .nav-links {
+                display: none;
+            }
+
+            .navbar .menu-icon {
+                display: block;
+                color: #fff;
+                font-size: 24px;
+                cursor: pointer;
+            }
+
+            .navbar.responsive .nav-links {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: #2e7d32;
+                padding: 10px 0;
+            }
+
+            .navbar.responsive .nav-links a {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <a href="/" class="logo">SmartPlant</a>
+        <div class="nav-links" id="navLinks">
+            <a href="/">Home</a>
+            <a href="/live-data">Live Data</a>
+            <a href="/historical">Historical Data</a>
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+        </div>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Device Control Panel</h1>
+        <p>Your Smart Plant System is up and running.</p>
+
+        <!-- Project Description -->
+        <div class="project-description">
+            <p>
+                Welcome to <strong>SmartPlantCare</strong>, your intelligent companion for effortless plant management.
+                Monitor and control your plant's environment in real-time with our automated LED lighting and water valve systems,
+                ensuring optimal growth and health. Whether you're a seasoned gardener or a plant enthusiast, SmartPlantCare
+                provides the tools you need to cultivate thriving, vibrant plants with ease.
+            </p>
+        </div>
+
+        <!-- LED Control Card -->
+        <div class="control-card">
+            <h2><i class="fas fa-lightbulb"></i> LED Control</h2>
+            <button onclick="toggleLED('ON')">
+                <i class="fas fa-toggle-on"></i> Turn ON LED
+            </button>
+            <button onclick="toggleLED('OFF')">
+                <i class="fas fa-toggle-off"></i> Turn OFF LED
+            </button>
+        </div>
+
+        <!-- Water Valve Control Card -->
+        <div class="control-card">
+            <h2><i class="fas fa-tint"></i> Water Valve Control</h2>
+            <button onclick="controlValve('OPEN')">
+                <i class="fas fa-water"></i> Open Valve
+            </button>
+            <button onclick="controlValve('CLOSE')">
+                <i class="fas fa-water-slash"></i> Close Valve
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Navbar Menu on Small Screens
+        function toggleMenu() {
+            const navbar = document.getElementById('navbar');
+            navbar.classList.toggle('responsive');
+        }
+
+        // Function to toggle LED
+        function toggleLED(state) {
+            fetch('/led-control', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ state: state }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                // Notifications removed as per request
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Notifications removed as per request
+            });
+        }
+
+        // Function to control Water Valve
+        function controlValve(action) {
+            fetch('/valve-control', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: action }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                // Notifications removed as per request
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Notifications removed as per request
+            });
+        }
+    </script>
+</body>
+</html>

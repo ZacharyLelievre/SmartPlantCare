@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Data - Smart Plant System</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Reset Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-image: url('https://static.vecteezy.com/system/resources/previews/041/388/535/non_2x/ai-generated-lush-greenery-of-tropical-plant-wall-photo.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            width: 100%;
+            background-color: rgba(46, 125, 50, 0.9); /* Darkened navbar background */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .logo {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navbar .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .nav-links a:hover {
+            background-color: #1b5e20;
+        }
+
+        .navbar .logout {
+            background-color: #c62828;
+            color: #fff;
+        }
+
+        .navbar .logout:hover {
+            background-color: #8e0000;
+        }
+
+        .navbar .menu-icon {
+            display: none;
+        }
+
+        /* Container */
+        .container {
+            flex: 1;
+            padding: 100px 20px 20px 20px; /* Adjusted padding-top for fixed navbar */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1; /* Make sure the content is on top of the background image */
+        }
+
+        .container h1 {
+            margin-bottom: 20px;
+            font-size: 32px;
+            color: white; /* Set text color to white */
+            text-align: center;
+        }
+
+        /* Chart Cards */
+        .chart-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .chart-card h2 {
+            margin-bottom: 15px;
+            font-size: 24px;
+            color: #2e7d32;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 400px !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .navbar .nav-links {
+                display: none;
+            }
+
+            .navbar .menu-icon {
+                display: block;
+                color: #fff;
+                font-size: 24px;
+                cursor: pointer;
+            }
+
+            .navbar.responsive .nav-links {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: #2e7d32;
+                padding: 10px 0;
+            }
+
+            .navbar.responsive .nav-links a {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <a href="/" class="logo">SmartPlant</a>
+        <div class="nav-links" id="navLinks">
+            <a href="/">Home</a>
+            <a href="/live-data">Live Data</a>
+            <a href="/historical">Historical Data</a>
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+        </div>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Historical Temperature Data</h1>
+
+        <!-- Temperature Chart Card -->
+        <div class="chart-card">
+            <h2><i class="fas fa-temperature-high"></i> Temperature Over Time</h2>
+            <canvas id="tempChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Navbar Menu on Small Screens
+        function toggleMenu() {
+            const navbar = document.getElementById('navbar');
+            navbar.classList.toggle('responsive');
+        }
+
+        const fakeData = [
+            { timestamp: "10:00:00", value: 24.5 },
+            { timestamp: "10:01:00", value: 25.0 },
+            { timestamp: "10:02:00", value: 24.7 },
+            { timestamp: "10:03:00", value: 24.9 },
+            { timestamp: "10:04:00", value: 25.2 },
+            { timestamp: "10:05:00", value: 25.3 },
+            { timestamp: "10:06:00", value: 25.0 },
+            { timestamp: "10:07:00", value: 24.8 },
+            { timestamp: "10:08:00", value: 24.7 },
+            { timestamp: "10:09:00", value: 24.5 }
+        ];
+
+        const tempCtx = document.getElementById('tempChart').getContext('2d');
+        const tempChart = new Chart(tempCtx, {
+            type: 'line',
+            data: {
+                labels: fakeData.map(point => point.timestamp),
+                datasets: [{
+                    label: 'Temperature (°C)',
+                    data: fakeData.map(point => point.value),
+                    borderColor: 'rgba(76, 175, 80, 1)', // Green color
+                    backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Temperature (°C)'
+                        },
+                        suggestedMin: 20,
+                        suggestedMax: 30
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
