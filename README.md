@@ -31,6 +31,13 @@
 
 ---
 
+## 📹 Project in Action
+
+Check out this video demonstrating the **SmartPlantCare** system in action:  
+[![SmartPlantCare Video](https://img.youtube.com/vi/PiHYvXdehcQ/0.jpg)](https://youtube.com/shorts/PiHYvXdehcQ)
+
+---
+
 ## 🚀 Getting Started
 
 ### 1. **Prerequisites**
