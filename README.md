@@ -28,9 +28,7 @@
 
 ### 7. **User-Friendly Dashboard 🖥️**
 - A responsive web interface to access live data, control devices, and review historical trends.
-
 ---
-
 ## 📹 Project in Action
 
 Check out this video demonstrating the **SmartPlantCare** system in action:  
