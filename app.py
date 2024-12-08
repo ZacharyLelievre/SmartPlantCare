@@ -17,13 +17,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-# Secret key for session management. Replace with a strong, random key in production.
-app.secret_key = 'your_secret_key_here'  # <-- Replace this with a strong secret key!
-
 # Define a single user with hashed password
 USER = {
     "username": "admin",
-    "password_hash": generate_password_hash("pwd")  # <-- Replace "password123" with your desired password
+    "password_hash": generate_password_hash("pwd") 
 }
 
 # MQTT Configuration
