@@ -60,7 +60,7 @@ def on_message(client, userdata, msg):
             print(f"Updated sensor data: Temp={temperature}C, Humidity={humidity}%")
         except json.JSONDecodeError as e:
             print(f"JSON decode error: {e}")
-    # If you have other sensor topics, handle them here
+   
 
 client.on_connect = on_connect
 client.on_message = on_message
@@ -137,7 +137,7 @@ def valve_control():
     client.publish(TOPIC_VALVE, action)
     return jsonify({"message": f"Valve {action}ED"}), 200  # e.g., "Valve OPENED"
 
-# Optional: Add a status route
+
 @app.route('/status', methods=['GET'])
 @login_required
 def status():
