@@ -28,11 +28,26 @@
 
 ### 7. **User-Friendly Dashboard 🖥️**
 - A responsive web interface to access live data, control devices, and review historical trends.
+
 ---
+
 ## 📹 Project in Action
 
 Check out this video demonstrating the **SmartPlantCare** system in action:  
 [![SmartPlantCare Video](https://img.youtube.com/vi/PiHYvXdehcQ/0.jpg)](https://youtube.com/shorts/PiHYvXdehcQ)
+
+---
+
+## 🌱 UI Screenshots
+
+### Device Control Panel
+![Device Control Panel](SmartPlant1.png)
+
+### Live Temperature and Humidity Data
+![Live Data](SmartPlant2.png)
+
+### Historical Temperature Data
+![Historical Data](SmartPlant3.png)
 
 ---
 
