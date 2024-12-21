@@ -40,8 +40,7 @@ Check out this video demonstrating the **SmartPlantCare** system in action:
 
 ## 🌱 UI Screenshots
 
-### Device Control Panel[Documentation-SmartPlantCare.pdf](https://github.com/user-attachments/files/18217639/Documentation-SmartPlantCare.pdf)
-
+### Device Control Panel
 ![Device Control Panel](SmartPlant1.png)
 
 ### Live Temperature and Humidity Data
@@ -49,6 +48,13 @@ Check out this video demonstrating the **SmartPlantCare** system in action:
 
 ### Historical Temperature Data
 ![Historical Data](SmartPlant3.png)
+
+---
+
+## 📄 Documentation
+
+For detailed information about the project, setup, and usage, please refer to the full documentation:  
+[📘 Documentation - SmartPlantCare.pdf](https://github.com/user-attachments/files/18217639/Documentation-SmartPlantCare.pdf)
 
 ---
 
